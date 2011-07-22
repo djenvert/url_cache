@@ -22,11 +22,13 @@ class UrlCacheAppHelper extends Helper {
 
     if (Configure::read('UrlCache.pageFiles')) {
       $view =& ClassRegistry::getObject('view');
-      $path = $view->here;
-      if ($this->here == '/') {
-        $path = 'home';
+      if (isset($view) && is_object($view)) {
+          $path = $view->here;
+            if ($this->here == '/') {
+              $path = 'home';
+            }
+            $this->_key = '_' . strtolower(Inflector::slug($path));
       }
-      $this->_key = '_' . strtolower(Inflector::slug($path));
     }
 
     $this->_key = 'url_map' . $this->_key;
